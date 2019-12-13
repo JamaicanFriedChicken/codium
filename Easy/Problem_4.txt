@@ -1,0 +1,3 @@
+(Python specific) In Python, what is the difference between else and finally in exception handling?
+- Finally is executed regardless of whether the statements in the try block fails or succeed. Else on the other hand,
+is executed only if the statements in the try block raises an exception.
