@@ -4,7 +4,7 @@ import os
 import sys
 
 
-class databasehandler:
+class DAT:
     def __init__(self):
         self.database_name = os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), 'todolist.db')
         self.database_connection = sqlite3.connect(self.database_name)
