@@ -15,7 +15,6 @@ def parse_args():
     return args
 
 
-@staticmethod
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -26,13 +25,14 @@ def dict_factory(cursor, row):
 def get_todo_list():
     database_connection.row_factory = dict_factory
     cursor = database_connection.cursor()
-    cursor.execute("select rowid, * FROM todo_list")
-    return cursor.fetchall()
-
+    cursor.execute("select * FROM todo_list")
+    for item in cursor.fetchall():
+        print(" ".join(str(x) for x in item.values()))
 
 def add_to_todo_list(task):
+    task = " ".join(task)
     cursor = database_connection.cursor()
-    cursor.execute("INSERT INTO todo_list VALUES (?)", (task,))
+    cursor.execute("INSERT INTO todo_list VALUES (?, ?)", (None, task))
     database_connection.commit()
 
 
@@ -48,14 +48,13 @@ if __name__ == '__main__':
     database_connection = sqlite3.connect('todo_list.db')
     cursor = database_connection.cursor()
     cursor.execute('''CREATE TABLE if not exists todo_list(
+                  id INTEGER PRIMARY KEY,
                   description TEXT);''')
     database_connection.commit()
 
     if commands.add:
-        for command in commands.add:
-            if not command == ' ':
-                add_to_todo_list(commands.add)
+        add_to_todo_list(commands.add)
     elif commands.remove:
         remove_from_todo_list(commands.remove)
-    elif commands.list:
+    elif commands.list is not None:
         get_todo_list()
