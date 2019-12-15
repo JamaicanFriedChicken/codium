@@ -28,6 +28,8 @@ def diamond(d):
 
 
 if __name__ == '__main__':
+    print(diamond(1))
+    print('-'*5)
     print(diamond(3))
     print('-'*5)
-    print(diamond(1))
+    print(diamond(4))
